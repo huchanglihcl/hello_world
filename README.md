@@ -12,7 +12,7 @@ protected void onDestroy() {
     super.onDestroy();
 }
 ````
-[java](hello_world/Jave基础/test.md)
+[java](Jave基础/test.md)
 > 第一行引用文字 
 
 # 一、java的跨平台原理
