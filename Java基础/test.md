@@ -20,7 +20,7 @@ public static <T> Stream<T> stream(T[] array) {
  }
 ```
 用例：
-```
+```java
 Stu[] stus = new Stu[10];
 Stream<Stu> stream2 = Arrays.stream(stus);
 /*
@@ -31,7 +31,7 @@ Stream<Stu> stream2 = Arrays.stream(stus);
 ```
 ### 2.3通过Stream类中的静态方法 of()
 Stream.of() 源码：
-```
+```java
 //1.单参泛型of
  public static<T> Stream<T> of(T t) {
     return StreamSupport.stream(new Streams.StreamBuilderImpl<>(t), false);
@@ -44,7 +44,7 @@ public static<T> Stream<T> of(T... values) {
 }
 ```
 用例：
-```
+```java
 Stream<String> stream3 = Stream.of("hxh", "aj", "hhh");
 ```
 ### 2.4使用Stream类的静态方法 iterate 创建无限流
@@ -52,7 +52,7 @@ iterate方法：
 Stream<T> iterate(final T seed, final UnaryOperator<T> f)
 参数 seed 种子起始值，UnaryOperator 函数式接口 继承Function<T,T> 此时参数类型符合返回值类型一致
 用例：
-```
+```java
 //4.使用Stream类的静态方法 iterate 创建无限流
 //Stream<T> iterate(final T seed, final UnaryOperator<T> f) 
 //参数 seed 种子起始值，
@@ -64,7 +64,7 @@ stream4.limit(5).forEach(System.out::println);
 ```
 ### 2.5 使用Stream类的静态方法 generate创建无限流
 generate方法参数为Supplier<T> 供给型接口
-```
+```java
 //5.使用Stream类的静态方法 generate 创建无限流
 //参数为Supplier<T> 供给型接口
 Stream<Double> generateStream = Stream.generate(() -> Math.random());
@@ -84,7 +84,7 @@ Stream<T> filter(Predicate<? super T> predicate)
 断言型接口参数 即条件判断过滤
 用例： 
 先创建一个Stu类List集合
-```
+```java
 List<Stu> stuList = Arrays.asList(
         new Stu(1,"hh",22),
         new Stu(2,"aa",22),
@@ -103,7 +103,7 @@ stuStream.forEach(System.out::println);
 ```
 ### 3.2 limit-限定元素数量
 通过截断流，使流中元素个数不超过指定数量
-```
+```java
 stuList.stream()
         .filter((s) ->{
             System.out.println("测试迭代几次");
@@ -127,7 +127,7 @@ Stu{id=4, name='cc', age=42}
 
 返回一个跳过前n个元素的流，若流中元素不足n个，则返回一个空流。 
 其与limit(n)互补
-```
+```java
 //skip(n)  跳过前n个元素
 stuList.stream()
     .skip(2).forEach(System.out::println);
@@ -141,7 +141,7 @@ stuList.stream().skip(6).forEach(System.out::println);
 ```
 ### 3.4 distinct-去重
 通过流所生成元素的hashCode()和equals()来去除重复元素
-```
+```java
 List<Stu> stuList = Arrays.asList(
         new Stu(1,"hh",22),
         new Stu(2,"aa",22),
@@ -181,7 +181,7 @@ Stu{id=5, name='dd', age=52}
 - 接收Lambda，将元素转换成其他形式或提取信息。 
 - 接收一个Function<? super T, ? extends R> mapper函数作为参数，该函数会被应用到每个元素上，并将其映射到一个新的元素。
 
-```
+```java
 //map映射
 List<String> stringList = Arrays.asList("aa", "bb", "cc", "dd");
 stringList.stream()
@@ -207,7 +207,7 @@ DD
 对比map映射： 
 1. map映射是将集合中的部分流添加到整体流中，而flatMap映射是将集合中的部分流中的每个元素单独一个个地添加到整体流中。 
 2. map映射: Stream<Stream<Character>> , flatMap映射：Stream<Character>
-```
+```java
 /**
  * 字符串拆分成字符后组成一个字符类型的流
  * @param str
@@ -255,24 +255,24 @@ st2.forEach(System.out::println);
 sorted()
 + 自然排序(Comparable方式)，按照字典顺序进行排序
 + 按照实现的Comparable中的compare to()方法
-```
+```java
 List<String> stringList = Arrays.asList("ee", "bb", "ff", "dd","哈哈","啊");
 //根据String类中Comparable方式进行默认排序，即compare to()方法
 stringList.stream()
     .sorted().forEach(System.out::println);
-结果：
+/*结果：
 bb
 dd
 ee
 ff
 哈哈
-啊    
+啊*/    
 ```
 ### 3.8 指定排序
 sorted(Comparator com)
 + 根据实现Comparator接口的指定方法进行排序
 
-```
+```java
 stuList.stream().sorted(
             (a,b) ->{
                 if (a.getAge().equals(b.getAge())){
@@ -293,7 +293,7 @@ stuList.stream().sorted(
 - true 匹配到了所有的元素 注意：和noneMatch()的false 结果代表集合不同 
 - false 没有匹配到所有的元素 说明匹配到条件集合中的真子集
 
-```
+```java
 boolean b = stuList.stream()
     .allMatch((e) -> e.getAge() > 20);
 System.out.println(b);//true
@@ -310,7 +310,7 @@ System.out.println(b2);//flase
 返回结果： 
 - true 匹配到了条件集合中的真子集元素，一个或者多个 
 - false 一个元素都没有匹配到，空集
-```
+```java
 boolean hhh = stuList.stream()
     .anyMatch((e) -> e.getName().equals("hhh"));
 System.out.println(hhh);//false
@@ -323,7 +323,7 @@ System.out.println(hhh);//true
 返回结果： 
 - true 所有元素都没有匹配到，空集 
 - false 不是所有的元素都没有匹配到 即匹配到了元素,有匹配到的元素即返回false，真子集
-```
+```java
 boolean b1 = stuList.stream()
     .noneMatch((e) -> e.getAge() > 20);
 System.out.println(b1);//flase
@@ -341,13 +341,13 @@ boolean b4 = stuList.stream()
 System.out.println(b3);//所有的元素都没有匹配到  返回了true
 ```
 ### 4.4 findFirst-返回第一个元素
-```
+```java
 Optional<Stu> first = stuList.stream().findFirst();
 System.out.println(first.get());// Stu{id=1, name='hh', age=22}
 ```
 返回第一个元素，用Optional集合类来封装，避免了空指针异常
 ### 4.5 findAny-返回当前流中的任意一个元素
-```
+```java
 //从集合中随便找个age>30的Stu对象  可以使用串行流stream,也可以使用parallelStream 并行流
 Optional<Stu> any = stuList.parallelStream()
     .filter((e) -> e.getAge() > 30).findAny();
@@ -358,12 +358,12 @@ System.out.println(any1.get());//Stu{id=3, name='bb', age=32}
 ```
 ### 4.6 count-返回流中元素总个数
 long count();
-```
+```java
 long count = stuList.stream().count();
 System.out.println(count);//8
 ```
 ### 4.7 max-返回流中的最大值
-```
+```java
 //根据年龄大小进行正序排序找出最大值
 Optional<Stu> max = stuList.parallelStream()
     .max((a, b) -> Integer.compare(a.getAge(), b.getAge()));
@@ -381,7 +381,7 @@ Optional<Integer> maxAge = stuList.parallelStream()
 System.out.println(maxAge.get()); //52
 ```
 ### 4.7 min-返回流中的最小值
-```
+```java
 //根据年龄大小进行正序排序找出最小值
 Optional<Stu> min = stuList.parallelStream()
     .min((a, b) -> Integer.compare(a.getAge(), b.getAge()));
@@ -393,7 +393,7 @@ Optional<Stu> min1 = stuList.parallelStream()
 System.out.println(min1.get()); //Stu{id=5, name='dd', age=52}
 ```
 ### 4.8 reduce-将流中元素反复结合起来，得到一个值
-```
+```java
 List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 //利用reduce归约函数，可以指定归约规则，将集合中的元素数值进行求和操作等
 //以0为起始值，对集合中的各个值进行相加
@@ -412,7 +412,7 @@ System.out.println(ageSumOp.get());//296
 ### 4.9 collect-将流转换为其他形式
 + 接收一个Collector接口的实现，用于Stream中元素做汇总的方法。
 + 利用Collectors实用工具类中提供的很多静态实现Collector接口的方法，进行相应的转换收集操作。
-```
+```java
 //收集stuList集合中的所有name值，转换为list集合
 List<String> nameList = stuList.stream().map(Stu::getName)
     .collect(Collectors.toList());
@@ -442,7 +442,7 @@ ageSet.forEach(System.out::println);
 ```
 如果想转换成其他没有的现成静态方法的数据结构集合，就使用`Collectors.toCollection()`方法，该方法具体参数和返回值为：`Collector<T, ?, C> toCollection(Supplier<C> collectionFactory)`
 使用`Collectors.toCollection(HashSet::new)`方法 转换成HashSet集合,该方法参数为Supplier供给型函数接口，传给一个构造函数， 用例如下：
-```
+```java
 //使用`Collectors.toCollection()`方法 转换成`其他没有的现成静态方法`的数据结构集合 比如HashSet
 HashSet<String> nameHashSet = stuList.stream().map(Stu::getName)
     .collect(Collectors.toCollection(HashSet::new));
@@ -459,7 +459,7 @@ nameHashSet.forEach(System.out::println);
 ### 4.10 Collectors类中的常用方法
 #### 4.10.1 counting-统计数量
 Long count() 统计元素个数
-```
+```java
 Long count = stuList.stream()
         .collect(Collectors.counting());
 System.out.println(count);//8
@@ -468,7 +468,7 @@ System.out.println(count);//8
 `<T> Collector<T, ?, Double> averagingDouble(ToDoubleFunction<? super T> mapper)`
 `<T> Collector<T, ?, Double> averagingInt(ToIntFunction<? super T> mapper)`
 `<T> Collector<T, ?, Double> averagingLong(ToLongFunction<? super T> mapper)`
-```
+```java
 Double ageAve = stuList.stream()
             .collect(Collectors.averagingDouble(Stu::getAge));
 System.out.println(ageAve);//37.0
@@ -477,7 +477,7 @@ System.out.println(ageAve);//37.0
 `<T> Collector<T, ?, Integer> summingInt(ToIntFunction<? super T> mapper)`
 `<T> Collector<T, ?, Long> summingLong(ToLongFunction<? super T> mapper)`
 `<T> Collector<T, ?, Double> summingDouble(ToDoubleFunction<? super T> mapper)`
-```
+```java
 Double ageSum = stuList.stream()
         .collect(Collectors.summingDouble(Stu::getAge));
 System.out.println(ageSum);//296.0
@@ -485,7 +485,7 @@ System.out.println(ageSum);//296.0
 #### 4.10.4 maxBy-根据函数条件求最大值
 `<T> Collector<T, ?, Optional<T>> maxBy(Comparator<? super T> comparator)`
 测试用例：根据年龄找出最大年龄值的stu对象
-```
+```java
 //根据年龄找出最大年龄值的stu对象
 Optional<Stu> stuOptional = stuList.stream()
         .collect(Collectors.maxBy((a, b) -> Double.compare(a.getAge(), b.getAge())));
@@ -493,7 +493,7 @@ System.out.println(stuOptional.get());//Stu{id=5, name='dd', age=52}
 ```
 #### 4.10.5 groupingBy-分组
 + 单级分组 `<T, K> Collector<T, ?, Map<K, List<T>>> groupingBy(Function<? super T, ? extends K> classifier)`
-```
+```java
 //根据年龄分组
 Map<Integer, List<Stu>> ageGroup = stuList.stream()
         .collect(Collectors.groupingBy(Stu::getAge));
@@ -508,7 +508,7 @@ System.out.println(ageGroup);
 + 多级分组 两个参数，第二个参数为Collector，即实现无限分组 
 `<T, K, A, D> Collector<T, ?, Map<K, D>> groupingBy(Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream)`
 先根据name分组，再根据年龄分组
-```
+```java
 //先根据name分组，再根据年龄分组
 Map<String, Map<String, List<Stu>>> groupmap = stuList.stream()
         .collect(Collectors.groupingBy(Stu::getName, Collectors.groupingBy((e) -> {
@@ -534,7 +534,7 @@ System.out.println(groupmap);
 满足条件的分到一个区，不满足条件分到另一个区
 `true , false Map<Boolean,List<>>`
 测试用例：是否年龄大于40，分两个区
-```
+```java
 Map<Boolean, List<Stu>> booleamGroup = stuList.stream()
     .collect(Collectors.partitioningBy((e) -> e.getAge() > 40));
 System.out.println(booleamGroup);
@@ -560,7 +560,7 @@ summarizingDouble
 返回 DoubleSummaryStatistics 类型可以直接调用各种计算方法
 summarizingInt，
 summarizingLong。
-```
+```java
 DoubleSummaryStatistics ageSummaryStatis = stuList.stream()
     .collect(Collectors.summarizingDouble(Stu::getAge));
 ageSummaryStatis.getAverage();
@@ -572,7 +572,7 @@ ageSummaryStatis.getSum();
 #### 4.10.8 joining-连接字符串
 `Collector<CharSequence, ?, String> joining()`
 测试用例：将stuList集合中所有的名字连接在一起
-```
+```java
 //将集合中所有的名字连接在一起
 String allNameStr = stuList.stream().map(Stu::getName)
     .collect(Collectors.joining());
