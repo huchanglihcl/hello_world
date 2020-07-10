@@ -1,3 +1,77 @@
+
+
+* [1  流的概念](#1--%E6%B5%81%E7%9A%84%E6%A6%82%E5%BF%B5)
+* [2 创建流的5种方法](#2-%E5%88%9B%E5%BB%BA%E6%B5%81%E7%9A%845%E7%A7%8D%E6%96%B9
+%E6%B3%95)
+  * [2\.1通过Collection 系列集合提供的串行流：stream()、并行流： paralleStream()
+](#21%E9%80%9A%E8%BF%87collection-%E7%B3%BB%E5%88%97%E9%9B%86%E5%90%88%E6%8F%90%
+E4%BE%9B%E7%9A%84%E4%B8%B2%E8%A1%8C%E6%B5%81stream%E5%B9%B6%E8%A1%8C%E6%B5%81-pa
+rallestream)
+  * [2\.2 通过Arrays中的静态方法stream(T[] array) 获取数组流](#22-%E9%80%9A%E8%B
+F%87arrays%E4%B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95streamt-array-%E
+8%8E%B7%E5%8F%96%E6%95%B0%E7%BB%84%E6%B5%81)
+  * [2\.3通过Stream类中的静态方法 of()](#23%E9%80%9A%E8%BF%87stream%E7%B1%BB%E4%
+B8%AD%E7%9A%84%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-of)
+  * [2\.4使用Stream类的静态方法 iterate 创建无限流](#24%E4%BD%BF%E7%94%A8stream%
+E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-iterate-%E5%88%9B%E5%BB%BA
+%E6%97%A0%E9%99%90%E6%B5%81)
+  * [2\.5 使用Stream类的静态方法 generate创建无限流](#25-%E4%BD%BF%E7%94%A8strea
+m%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-generate%E5%88%9B%E5%BB%
+BA%E6%97%A0%E9%99%90%E6%B5%81)
+* [3 Stream中间操作](#3-stream%E4%B8%AD%E9%97%B4%E6%93%8D%E4%BD%9C)
+  * [3\.1 filter\-过滤](#31-filter-%E8%BF%87%E6%BB%A4)
+  * [3\.2 limit\-限定元素数量](#32-limit-%E9%99%90%E5%AE%9A%E5%85%83%E7%B4%A0%E6
+%95%B0%E9%87%8F)
+  * [3\.3 skip\-跳过元素](#33-skip-%E8%B7%B3%E8%BF%87%E5%85%83%E7%B4%A0)
+  * [3\.4 distinct\-去重](#34-distinct-%E5%8E%BB%E9%87%8D)
+  * [3\.5  map映射](#35--map%E6%98%A0%E5%B0%84)
+  * [3\.6 flatMap映射](#36-flatmap%E6%98%A0%E5%B0%84)
+  * [3\.7 自然排序](#37-%E8%87%AA%E7%84%B6%E6%8E%92%E5%BA%8F)
+  * [3\.8 指定排序](#38-%E6%8C%87%E5%AE%9A%E6%8E%92%E5%BA%8F)
+* [4 终止Stream操作](#4-%E7%BB%88%E6%AD%A2stream%E6%93%8D%E4%BD%9C)
+  * [4\.1 allMatch\-检查是否匹配所有元素](#41-allmatch-%E6%A3%80%E6%9F%A5%E6%98%
+AF%E5%90%A6%E5%8C%B9%E9%85%8D%E6%89%80%E6%9C%89%E5%85%83%E7%B4%A0)
+  * [4\.2 anyMatch\-检查是否至少匹配一个元素](#42-anymatch-%E6%A3%80%E6%9F%A5%E6
+%98%AF%E5%90%A6%E8%87%B3%E5%B0%91%E5%8C%B9%E9%85%8D%E4%B8%80%E4%B8%AA%E5%85%83%E
+7%B4%A0)
+  * [4\.3 noneMatch\-检查是否所有元素都没有匹配到](#43-nonematch-%E6%A3%80%E6%9F
+%A5%E6%98%AF%E5%90%A6%E6%89%80%E6%9C%89%E5%85%83%E7%B4%A0%E9%83%BD%E6%B2%A1%E6%9
+C%89%E5%8C%B9%E9%85%8D%E5%88%B0)
+  * [4\.4 findFirst\-返回第一个元素](#44-findfirst-%E8%BF%94%E5%9B%9E%E7%AC%AC%E
+4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0)
+  * [4\.5 findAny\-返回当前流中的任意一个元素](#45-findany-%E8%BF%94%E5%9B%9E%E5
+%BD%93%E5%89%8D%E6%B5%81%E4%B8%AD%E7%9A%84%E4%BB%BB%E6%84%8F%E4%B8%80%E4%B8%AA%E
+5%85%83%E7%B4%A0)
+  * [4\.6 count\-返回流中元素总个数](#46-count-%E8%BF%94%E5%9B%9E%E6%B5%81%E4%B8
+%AD%E5%85%83%E7%B4%A0%E6%80%BB%E4%B8%AA%E6%95%B0)
+  * [4\.7 max\-返回流中的最大值](#47-max-%E8%BF%94%E5%9B%9E%E6%B5%81%E4%B8%AD%E7
+%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC)
+  * [4\.7 min\-返回流中的最小值](#47-min-%E8%BF%94%E5%9B%9E%E6%B5%81%E4%B8%AD%E7
+%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC)
+  * [4\.8 reduce\-将流中元素反复结合起来，得到一个值](#48-reduce-%E5%B0%86%E6%B5
+%81%E4%B8%AD%E5%85%83%E7%B4%A0%E5%8F%8D%E5%A4%8D%E7%BB%93%E5%90%88%E8%B5%B7%E6%9
+D%A5%E5%BE%97%E5%88%B0%E4%B8%80%E4%B8%AA%E5%80%BC)
+  * [4\.9 collect\-将流转换为其他形式](#49-collect-%E5%B0%86%E6%B5%81%E8%BD%AC%E
+6%8D%A2%E4%B8%BA%E5%85%B6%E4%BB%96%E5%BD%A2%E5%BC%8F)
+  * [4\.10 Collectors类中的常用方法](#410-collectors%E7%B1%BB%E4%B8%AD%E7%9A%84%
+E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95)
+    * [4\.10\.1 counting\-统计数量](#4101-counting-%E7%BB%9F%E8%AE%A1%E6%95%B0%E
+9%87%8F)
+    * [4\.10\.2 averagingDouble\-求平均值并转换成Double类型](#4102-averagingdoub
+le-%E6%B1%82%E5%B9%B3%E5%9D%87%E5%80%BC%E5%B9%B6%E8%BD%AC%E6%8D%A2%E6%88%90doubl
+e%E7%B1%BB%E5%9E%8B)
+    * [4\.10\.3 summingDouble\-求和并转换成Double类型](#4103-summingdouble-%E6%B
+1%82%E5%92%8C%E5%B9%B6%E8%BD%AC%E6%8D%A2%E6%88%90double%E7%B1%BB%E5%9E%8B)
+    * [4\.10\.4 maxBy\-根据函数条件求最大值](#4104-maxby-%E6%A0%B9%E6%8D%AE%E5%8
+7%BD%E6%95%B0%E6%9D%A1%E4%BB%B6%E6%B1%82%E6%9C%80%E5%A4%A7%E5%80%BC)
+    * [4\.10\.5 groupingBy\-分组](#4105-groupingby-%E5%88%86%E7%BB%84)
+    * [4\.10\.6 partitioningBy\-分区](#4106-partitioningby-%E5%88%86%E5%8C%BA)
+    * [4\.10\.7 summarizingDouble\-计算方法总括函数](#4107-summarizingdouble-%E8
+%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95%E6%80%BB%E6%8B%AC%E5%87%BD%E6%95%B0)
+    * [4\.10\.8 joining\-连接字符串](#4108-joining-%E8%BF%9E%E6%8E%A5%E5%AD%97%E
+7%AC%A6%E4%B8%B2)
+      
+
 ## 1  流的概念
    Stream是Java8中处理集合的关键抽象概念，它可以指定希望对集合的操作，可以执行复杂的查找、过滤和映射数据等操作。
    使用Stream API 对集合的数据进行操作，类似于SQL执行的数据库查询，也可以用来并行执行操作，其提供了一种高效且易于使用的处理数据方式。
